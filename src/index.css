@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.data-list{
+  max-height: 550px;
+  overflow-y: auto;
+}
+.asset-list-item{
+  margin: 15px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  padding: 15px;
+  overflow: auto;
+  cursor: pointer;
+}
+.asset-list-item:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.asset-title{
+  float:left;
+}
+.asset-list-icon{
+  float: right;
+  margin-top: 10px;
+}
