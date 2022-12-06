@@ -18,13 +18,15 @@ function App() {
     getAssetData();
     getMetrics();
   }, []);
-
-  //
+  console.log("Active Metrics", activeMetrics);
+  console.log("Valid Assets", validAssets);
+  
+  //Function to retrieve assets from the CoinMetrics Community APIS
   const getAssetData = () => {
     fetch("https://community-api.coinmetrics.io/v4/catalog-all/assets")
       .then((response) => response.json())
       .then((data) => {
-        //TODO: Set the valid assets that have at least one metric
+        //Set the valid assets that have at least one metric
         setValidAssets(
           data.data.filter((asset) => asset.metrics !== undefined)
         );
@@ -53,10 +55,35 @@ function App() {
     //Live update assets when search box is changed
     const query = e.target.value;
     console.log(query);
-    // setFilteredValidAssets(filteredValidAssets.filter((asset) => {asset.full_name.includes(query)}));
+    if (query !== "") {
+      setValidAssets(
+        //Check to see if what user types in search bar matches with asset name and iC
+        validAssets.filter(
+          (asset) =>
+            asset.full_name.toLowerCase().startsWith(query) ||
+            asset.asset.toLowerCase().startsWith(query)
+        )
+      );
+    } else {
+      getAssetData();
+    }
   };
-  const searchMetric = () => {
+  const searchMetric = (e) => {
     //Live update metrics when search box is changed
+    const query = e.target.value;
+    console.log(query);
+    if (query !== "") {
+      setActiveMetrics(
+        //Check to see if what user types in search bar matches with asset name and iC
+        activeMetrics.filter(
+          (metric) =>
+            metric.full_name.toLowerCase().startsWith(query) ||
+            metric.metric.toLowerCase().startsWith(query)
+        )
+      );
+    } else {
+      getMetrics();
+    }
   };
 
   //
@@ -78,19 +105,11 @@ function App() {
       }
     }
     setActiveMetrics(filteredMetrics);
-
-    console.log("activeMetrics", activeMetrics);
-    console.log("metrics", metrics);
-    console.log("filteredMetrics (should equal metrics)", filteredMetrics);
   };
 
   //
   const metricOnClick = (assets) => {
-    getMetrics();
     setValidAssets(validAssets.filter((item) => assets.includes(item.asset))); // set
-
-    console.log("valid assets", validAssets);
-    console.log("metric assets", assets);
   };
   return (
     <div className="container">
@@ -100,6 +119,7 @@ function App() {
           <h3>Assets</h3>
           <SearchBar
             onChange={searchAsset}
+            onKeyDownsearchAsset
             placeholder="Search for an Assets"
           />
           <ul className="asset-list data-list">
@@ -114,14 +134,18 @@ function App() {
               );
             })}
           </ul>
-          <button className="btn btn-primary reset-button" onClick={handleResetAssetList}>
-            Reset Lists
+          <button
+            className="btn btn-primary reset-button"
+            onClick={handleResetAssetList}
+          >
+            Reset Asset List
           </button>
         </div>
         <div className="col-md-6 metric-list-container">
           <h3>Metrics</h3>
           <SearchBar
             onChange={searchMetric}
+            onKeyDown={searchMetric}
             placeholder="Search for an Metrics"
           />
           <ul className="metric-list data-list">
@@ -137,8 +161,11 @@ function App() {
               );
             })}
           </ul>
-          <button className="btn btn-primary reset-button" onClick={handleResetMetricList}>
-            Reset Metric List 
+          <button
+            className="btn btn-primary reset-button"
+            onClick={handleResetMetricList}
+          >
+            Reset Metric List
           </button>
         </div>
       </div>
