@@ -2,7 +2,7 @@ import React from "react";
 
 function AssetListItem(props) {
   return (
-    <li className="asset-list-item">
+    <li className="asset-list-item" onClick={props.onClick}>
       <h4 className="asset-title">{props.full_name} ({props.asset})</h4>
       <svg
         xmlns="http://www.w3.org/2000/svg"

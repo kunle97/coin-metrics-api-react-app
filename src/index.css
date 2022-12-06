@@ -20,7 +20,7 @@ ul {
   max-height: 550px;
   overflow-y: auto;
 }
-.asset-list-item{
+.asset-list-item, .metric-list-item{
   margin: 15px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -29,7 +29,7 @@ ul {
   overflow: auto;
   cursor: pointer;
 }
-.asset-list-item:hover {
+.asset-list-item:hover, .metric-list-item:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .asset-title{
@@ -38,4 +38,11 @@ ul {
 .asset-list-icon{
   float: right;
   margin-top: 10px;
+}
+.search-bar{
+  margin-bottom: 15px;
+}
+
+.reset-button{
+  width: 100%;
 }
