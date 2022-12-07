@@ -30,7 +30,6 @@ function App() {
   const searchAsset = (e) => {
     //update assets when search button is pressed
     const query = assetSearchRef.current.value;
-    console.log(query);
     if (query !== "") {
       setValidAssets(
         //Check to see if what user types in search bar matches with asset name and iC
@@ -52,7 +51,6 @@ function App() {
   const searchMetric = (e) => {
     //update metrics when search button is pressed
     const query = metricSearchRef.current.value;
-    console.log(query);
     if (query !== "") {
       setActiveMetrics(
         //Check to see if what user types in search bar matches with asset name and iC
