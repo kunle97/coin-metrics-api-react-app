@@ -40,7 +40,7 @@ function App() {
             asset.asset.toLowerCase().startsWith(query.toLowerCase())
         )
       );
-      if(validAssets.length == 0){
+      if (validAssets.length === 0) {
         setAlertMessage(<p>No results found</p>);
       }
     } else {
@@ -69,19 +69,19 @@ function App() {
 
   //handles filtering in metric column when an asset is clicked
   const assetOnClick = (e, metrics) => {
-    if (e.target.className == "asset-list-item") {
-      e.target.className = "asset-list-item list-item-selected";
+    if (e.currentTarget.className === "asset-list-item") {
+      e.currentTarget.className = "asset-list-item list-item-selected";
       const filteredMetrics = [];
       for (var i = 0; i < activeMetrics.length; i++) {
         for (var j = 0; j < metrics.length; j++) {
-          if (activeMetrics[i].metric == metrics[j].metric) {
+          if (activeMetrics[i].metric === metrics[j].metric) {
             filteredMetrics.push(activeMetrics[i]);
           }
         }
       }
       setActiveMetrics(filteredMetrics);
     } else {
-      e.target.className = "asset-list-item";
+      e.currentTarget.className = "asset-list-item";
       getMetrics();
       resetMetrics();
     }
@@ -89,8 +89,14 @@ function App() {
 
   //handles filtering in asset column when metric is clicked
   const metricOnClick = (e, assets) => {
-    setValidAssets(validAssets.filter((item) => assets.includes(item.asset)));
-    e.target.className = "metric-list-item list-item-selected";
+    if (e.currentTarget.className === "metric-list-item") {
+      e.currentTarget.className = "metric-list-item list-item-selected";
+      setValidAssets(validAssets.filter((item) => assets.includes(item.asset)));
+    } else {
+      e.currentTarget.className = "metric-list-item";
+      getAssets();
+      resetAssets();
+    }
   };
   return (
     <div className="container">
@@ -98,7 +104,7 @@ function App() {
       <p>
         Select an assset to see its corresponding metrics. Select a metric to
         see its corresponding assets. You may deselect an item to reset the
-        other list You may also search for either in thier respective search
+        other list. You may also search for either in thier respective search
         bars. You may use the reset button at the bottom to restore all items to
         each list.
       </p>
@@ -155,7 +161,7 @@ function App() {
               );
             })}
           </ul>
-          {validAssets.length == 0 && alertMessage}
+          {validAssets.length === 0 && alertMessage}
         </div>
         <div className="col-md-6 metric-list-container">
           <h3 className="column-title">Metrics</h3>
@@ -197,7 +203,7 @@ function App() {
               );
             })}
           </ul>
-          {activeMetrics.length == 0 && alertMessage}
+          {activeMetrics.length === 0 && alertMessage}
         </div>
         <button
           className="btn btn-primary reset-button"
