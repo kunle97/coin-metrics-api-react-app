@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import "./App.css";
 import "./bootstrap/css/bootstrap.css";
-import ResetButton from "./components/ResetButton";
 import { useCoinMetrics } from "./hooks/useCoinMetrics";
 function App() {
   const {
     validAssets,
     activeMetrics,
     alertMessage,
+    setAlertMessage,
     resetAssets,
     resetMetrics,
     getAssets,
@@ -40,6 +40,9 @@ function App() {
             asset.asset.toLowerCase().startsWith(query.toLowerCase())
         )
       );
+      if(validAssets.length == 0){
+        setAlertMessage(<p>No results found</p>);
+      }
     } else {
       getAssets();
     }
@@ -94,10 +97,10 @@ function App() {
       <h1 className="page-title">Coin Metrics Take-Home Assesment</h1>
       <p>
         Select an assset to see its corresponding metrics. Select a metric to
-        see its corresponding assets. You may deselect an item to reset the other
-        list You may also search for either in thier respective search bars.
-        You may use the reset button at the bottom to restore all items to each
-        list.
+        see its corresponding assets. You may deselect an item to reset the
+        other list You may also search for either in thier respective search
+        bars. You may use the reset button at the bottom to restore all items to
+        each list.
       </p>
       <div className="row">
         <div className="col-md-6 asset-list-container">
@@ -196,7 +199,12 @@ function App() {
           </ul>
           {activeMetrics.length == 0 && alertMessage}
         </div>
-        <ResetButton title="Reset Lists" onClick={handleResetLists} />
+        <button
+          className="btn btn-primary reset-button"
+          onClick={handleResetLists}
+        >
+          Reset Lists
+        </button>
       </div>
     </div>
   );

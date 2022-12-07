@@ -52,6 +52,7 @@ export function useCoinMetrics() {
     validAssets,
     activeMetrics,
     alertMessage,
+    setAlertMessage,
     resetAssets,
     resetMetrics,
     getAssets,
