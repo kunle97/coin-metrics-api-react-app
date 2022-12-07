@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import "./App.css";
 import "./bootstrap/css/bootstrap.css";
 import ResetButton from "./components/ResetButton";
