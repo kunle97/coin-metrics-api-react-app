@@ -71,6 +71,7 @@ function App() {
   const assetOnClick = (e, metrics) => {
     if (e.currentTarget.className === "asset-list-item") {
       e.currentTarget.className = "asset-list-item list-item-selected";
+      resetMetrics();
       const filteredMetrics = [];
       for (var i = 0; i < activeMetrics.length; i++) {
         for (var j = 0; j < metrics.length; j++) {
@@ -91,6 +92,7 @@ function App() {
   const metricOnClick = (e, assets) => {
     if (e.currentTarget.className === "metric-list-item") {
       e.currentTarget.className = "metric-list-item list-item-selected";
+      resetAssets();
       setValidAssets(validAssets.filter((item) => assets.includes(item.asset)));
     } else {
       e.currentTarget.className = "metric-list-item";
