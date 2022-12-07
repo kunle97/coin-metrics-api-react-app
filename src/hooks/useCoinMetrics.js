@@ -7,7 +7,6 @@ export function useCoinMetrics() {
   const [metricReset, setMetricReset] = useState([]);
   const [alertMessage, setAlertMessage] = useState(<p>Loading...</p>);
 
-
   useEffect(() => {
     getAssets();
     getMetrics();
@@ -17,25 +16,35 @@ export function useCoinMetrics() {
 
   //retrieve assets from the CoinMetrics Community APIS
   const getAssets = () => {
-    fetch("https://community-api.coinmetrics.io/v4/catalog-all/assets")
-      .then((response) => response.json())
-      .then((data) => {
-        setAlertMessage(<p>Loading...</p>);
-        //Set the valid assets that have at least one metric
-        setValidAssets(
-          data.data.filter((asset) => asset.metrics !== undefined)
-        );
-      });
+    setAlertMessage(<p>Loading...</p>);
+    try{
+      fetch("https://community-api.coinmetrics.io/v4/catalog-all/assets")
+        .then((response) => response.json())
+        .then((data) => {
+          //Set the valid assets that have at least one metric
+          setValidAssets(
+            data.data.filter((asset) => asset.metrics !== undefined)
+          );
+        });
+    }catch(error){
+      console.log(error);
+      setAlertMessage(<p>{error}</p>);
+    }
   };
 
   // retrieve metrics from the CoinMetrics Community APIS
   const getMetrics = () => {
+    setAlertMessage(<p>Loading...</p>);
+    try{
     fetch("https://community-api.coinmetrics.io/v4/catalog-all/asset-metrics")
       .then((response) => response.json())
       .then((data) => {
-        setAlertMessage(<p>Loading...</p>);
         setActiveMetrics(data.data);
       });
+    }catch(error){
+      console.log(error);
+      setAlertMessage(<p>{error}</p>);
+    }
   };
 
   //Sets he validAssets array to the original value
