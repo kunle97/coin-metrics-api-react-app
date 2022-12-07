@@ -17,8 +17,12 @@ ul {
   margin: 0;
 }
 .data-list{
-  max-height: 550px;
+  max-height: 750px;
   overflow-y: auto;
+  margin: 25px 0;
+}
+@media screen and (max-width:767px) {
+  .data-list{max-height: 350px;}
 }
 .asset-list-item, .metric-list-item{
   margin: 15px;
@@ -31,6 +35,8 @@ ul {
 }
 .asset-list-item:hover, .metric-list-item:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  background: #007bff;
+  color: white;
 }
 .asset-title{
   float:left;
@@ -45,4 +51,19 @@ ul {
 
 .reset-button{
   width: 100%;
+  margin-bottom: 15px
+}
+.page-title{
+  text-align: center;
+  margin: 45px 0 24px;
+}
+.column-title{
+  margin-bottom: 15px;
+}
+.list-item-selected{
+  background: #007bff;
+  color: white;
+}
+.metric-subtitle{
+  overflow-wrap: break-word;
 }

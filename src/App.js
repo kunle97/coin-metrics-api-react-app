@@ -1,84 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import "./bootstrap/css/bootstrap.css";
-import AssetListItem from "./components/AssetListItem";
-import MetricListItem from "./components/MetricListItem";
-import SearchBar from "./components/SearchBar";
-// import "./bootstrap/js/bootstrap"
-
+import ResetButton from "./components/ResetButton";
+import { useCoinMetrics } from "./hooks/useCoinMetrics";
 function App() {
-  let assetReset = [];
-  let metricReset = [];
-  const [validAssets, setValidAssets] = useState([]);
-  const [activeMetrics, setActiveMetrics] = useState([]);
+  const {
+    validAssets,
+    activeMetrics,
+    alertMessage,
+    resetAssets,
+    resetMetrics,
+    getAssets,
+    getMetrics,
+    setValidAssets,
+    setActiveMetrics,
+  } = useCoinMetrics();
 
-  const [selectedMetricAssets, setSelectedMetricAssets] = useState([]);
+  const assetSearchRef = useRef();
+  const metricSearchRef = useRef();
 
-  useEffect(() => {
-    getAssetData();
+  const handleResetLists = () => {
+    getAssets();
     getMetrics();
-  }, []);
-  console.log("Active Metrics", activeMetrics);
-  console.log("Valid Assets", validAssets);
-  
-  //Function to retrieve assets from the CoinMetrics Community APIS
-  const getAssetData = () => {
-    fetch("https://community-api.coinmetrics.io/v4/catalog-all/assets")
-      .then((response) => response.json())
-      .then((data) => {
-        //Set the valid assets that have at least one metric
-        setValidAssets(
-          data.data.filter((asset) => asset.metrics !== undefined)
-        );
-        assetReset = data.data.filter((asset) => asset.metrics !== undefined);
-      });
+    resetAssets();
+    resetMetrics();
   };
 
-  //
-  const getMetrics = () => {
-    fetch("https://community-api.coinmetrics.io/v4/catalog-all/asset-metrics")
-      .then((response) => response.json())
-      .then((data) => {
-        setActiveMetrics(data.data);
-        metricReset = data.data;
-      });
-  };
-
-  const handleResetAssetList = () => {
-    getAssetData();
-  };
-  const handleResetMetricList = () => {
-    getMetrics();
-  };
-
+  //Function used to handle searching assets when search button is clicked
   const searchAsset = (e) => {
-    //Live update assets when search box is changed
-    const query = e.target.value;
+    //update assets when search button is pressed
+    const query = assetSearchRef.current.value;
     console.log(query);
     if (query !== "") {
       setValidAssets(
         //Check to see if what user types in search bar matches with asset name and iC
         validAssets.filter(
           (asset) =>
-            asset.full_name.toLowerCase().startsWith(query) ||
-            asset.asset.toLowerCase().startsWith(query)
+            asset.full_name.toLowerCase().startsWith(query.toLowerCase()) ||
+            asset.asset.toLowerCase().startsWith(query.toLowerCase())
         )
       );
     } else {
-      getAssetData();
+      getAssets();
     }
   };
+
+  //Function used to handle searching metrics when search button is clicked
   const searchMetric = (e) => {
-    //Live update metrics when search box is changed
-    const query = e.target.value;
+    //update metrics when search button is pressed
+    const query = metricSearchRef.current.value;
     console.log(query);
     if (query !== "") {
       setActiveMetrics(
         //Check to see if what user types in search bar matches with asset name and iC
         activeMetrics.filter(
           (metric) =>
-            metric.full_name.toLowerCase().startsWith(query) ||
-            metric.metric.toLowerCase().startsWith(query)
+            metric.full_name.toLowerCase().startsWith(query.toLowerCase()) ||
+            metric.metric.toLowerCase().startsWith(query.toLowerCase())
         )
       );
     } else {
@@ -86,88 +64,139 @@ function App() {
     }
   };
 
-  //
-  const assetOnClick = (metrics) => {
-    // setActiveMetrics(metricReset);
-    // console.log("metricReset", metricReset);
-    // setActiveMetrics(
-    //   filteredActiveMetrics.filter((item, index) =>
-    //     metrics[index].includes(item.metric)
-    //   )
-    // ); //
-
-    const filteredMetrics = [];
-    for (var i = 0; i < activeMetrics.length; i++) {
-      for (var j = 0; j < metrics.length; j++) {
-        if (activeMetrics[i].metric == metrics[j].metric) {
-          filteredMetrics.push(activeMetrics[i]);
+  //handles filtering in metric column when an asset is clicked
+  const assetOnClick = (e, metrics) => {
+    if (e.target.className == "asset-list-item") {
+      e.target.className = "asset-list-item list-item-selected";
+      const filteredMetrics = [];
+      for (var i = 0; i < activeMetrics.length; i++) {
+        for (var j = 0; j < metrics.length; j++) {
+          if (activeMetrics[i].metric == metrics[j].metric) {
+            filteredMetrics.push(activeMetrics[i]);
+          }
         }
       }
+      setActiveMetrics(filteredMetrics);
+    } else {
+      e.target.className = "asset-list-item";
+      getMetrics();
+      resetMetrics();
     }
-    setActiveMetrics(filteredMetrics);
   };
 
-  //
-  const metricOnClick = (assets) => {
-    setValidAssets(validAssets.filter((item) => assets.includes(item.asset))); // set
+  //handles filtering in asset column when metric is clicked
+  const metricOnClick = (e, assets) => {
+    setValidAssets(validAssets.filter((item) => assets.includes(item.asset)));
+    e.target.className = "metric-list-item list-item-selected";
   };
   return (
     <div className="container">
-      <h1>Coin Metrics Tak-Home Assesment</h1>
+      <h1 className="page-title">Coin Metrics Take-Home Assesment</h1>
+      <p>
+        Select an assset to see its corresponding metrics. Select a metric to
+        see its corresponding assets. You may deselect an item to reset the other
+        list You may also search for either in thier respective search bars.
+        You may use the reset button at the bottom to restore all items to each
+        list.
+      </p>
       <div className="row">
         <div className="col-md-6 asset-list-container">
-          <h3>Assets</h3>
-          <SearchBar
-            onChange={searchAsset}
-            onKeyDownsearchAsset
-            placeholder="Search for an Assets"
-          />
+          <h3 className="column-title">Assets</h3>
+          <div>
+            <div className="input-group mb-3">
+              <input
+                id="assetSearchBar"
+                type="text"
+                ref={assetSearchRef}
+                className="form-control search-bar"
+                placeholder="Search for an Assets"
+                aria-label="Search for an Assets"
+                aria-describedby="basic-addon2"
+              />
+              <div className="input-group-append">
+                <button
+                  onClick={(e) => searchAsset(e)}
+                  className="btn btn-primary"
+                  type="button"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
           <ul className="asset-list data-list">
             {validAssets.map((asset) => {
               const metrics = asset.metrics;
               return (
-                <AssetListItem
-                  onClick={(event) => assetOnClick(metrics)}
-                  full_name={asset.full_name}
-                  asset={asset.asset}
-                />
+                <li
+                  className="asset-list-item"
+                  onClick={(e) => assetOnClick(e, metrics)}
+                >
+                  <h4 className="asset-title">
+                    {asset.full_name} ({asset.asset})
+                  </h4>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-chevron-right asset-list-icon"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg>
+                </li>
               );
             })}
           </ul>
-          <button
-            className="btn btn-primary reset-button"
-            onClick={handleResetAssetList}
-          >
-            Reset Asset List
-          </button>
+          {validAssets.length == 0 && alertMessage}
         </div>
         <div className="col-md-6 metric-list-container">
-          <h3>Metrics</h3>
-          <SearchBar
-            onChange={searchMetric}
-            onKeyDown={searchMetric}
-            placeholder="Search for an Metrics"
-          />
+          <h3 className="column-title">Metrics</h3>
+          <div>
+            <div className="input-group mb-3">
+              <input
+                id="assetSearchBar"
+                type="text"
+                ref={metricSearchRef}
+                className="form-control search-bar"
+                placeholder="Search for an Assets"
+                aria-label="Search for an Assets"
+                aria-describedby="basic-addon2"
+              />
+              <div className="input-group-append">
+                <button
+                  onClick={(e) => searchMetric(e)}
+                  className="btn btn-primary"
+                  type="button"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+
           <ul className="metric-list data-list">
             {activeMetrics.map((metric) => {
               const assets = metric.frequencies[0].assets;
               return (
-                <MetricListItem
-                  onClick={(event) => metricOnClick(assets)}
-                  metricTitle={metric.full_name}
-                  metricSubtitle={metric.metric}
-                  metricDescription={metric.description}
-                />
+                <li
+                  className="metric-list-item"
+                  onClick={(e) => metricOnClick(e, assets)}
+                >
+                  <h4 className="metric-title">{metric.full_name}</h4>
+                  <h5 className="metric-subtitle">{metric.metric}</h5>
+                  <p className="metric-description">{metric.description}</p>
+                </li>
               );
             })}
           </ul>
-          <button
-            className="btn btn-primary reset-button"
-            onClick={handleResetMetricList}
-          >
-            Reset Metric List
-          </button>
+          {activeMetrics.length == 0 && alertMessage}
         </div>
+        <ResetButton title="Reset Lists" onClick={handleResetLists} />
       </div>
     </div>
   );
