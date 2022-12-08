@@ -39,14 +39,14 @@ const AssetColumn = (props) => {
       e.currentTarget.className = "asset-list-item list-item-selected";
       const filteredMetrics = [];
 
-      //Looping over all of the metrics to find ones that match with the selected assets metrics
-      for (var i = 0; i < props.activeMetrics.length; i++) {
-        for (var j = 0; j < metrics.length; j++) {
-          if (props.activeMetrics[i].metric === metrics[j].metric) {
-            filteredMetrics.push(props.activeMetrics[i]);
+      //Looping over all of the metrics to find ones that match with the selected assets  with foreach loops
+      props.activeMetrics.forEach(activeMetric=>{
+        metrics.forEach(metric => {
+          if (activeMetric.metric === metric.metric) {
+            filteredMetrics.push(activeMetric);
           }
-        }
-      }
+        })
+      });
 
       //Update the metrics list
       props.setActiveMetrics(filteredMetrics);
