@@ -9,7 +9,7 @@ const AssetColumn = (props) => {
     const query = assetSearchRef.current.value;
     if (query !== "") {
       props.setValidAssets(
-        //Check to see if what user types in search bar matches with asset name and iC
+        //Check to see if what user types in search bar matches with asset name or id
         props.validAssets.filter(
           (asset) =>
             asset.full_name.toLowerCase().startsWith(query.toLowerCase()) ||
@@ -25,18 +25,21 @@ const AssetColumn = (props) => {
   };
 
   //handles filtering in metric column when an asset is clicked
-  const assetOnClick =  (e, metrics) => { 
+  const assetOnClick = (e, metrics) => {
     if (e.currentTarget.className === "asset-list-item") {
       //select all elements with the asset-list-item class
-      const elements = document.querySelectorAll('.asset-list-item');
+      const elements = document.querySelectorAll(".asset-list-item");
 
       //Remove selected class from all items
       elements.forEach((element) => {
-        element.classList.remove('list-item-selected');
+        element.classList.remove("list-item-selected");
       });
- 
+
+      //Adding styling to show that item on list has been selected
       e.currentTarget.className = "asset-list-item list-item-selected";
       const filteredMetrics = [];
+
+      //Looping over all of the metrics to find ones that match with the selected assets metrics
       for (var i = 0; i < props.activeMetrics.length; i++) {
         for (var j = 0; j < metrics.length; j++) {
           if (props.activeMetrics[i].metric === metrics[j].metric) {
@@ -44,6 +47,8 @@ const AssetColumn = (props) => {
           }
         }
       }
+
+      //Update the metrics list
       props.setActiveMetrics(filteredMetrics);
     } else {
       e.currentTarget.className = "asset-list-item";

@@ -32,6 +32,7 @@ const MetricColumn = (props) => {
         element.classList.remove('list-item-selected');
       });
 
+      //Filter out all assets that do not have selected metric
       e.currentTarget.className = "metric-list-item list-item-selected";
       props.setValidAssets(
         props.validAssets.filter((item) => assets.includes(item.asset))

@@ -47,12 +47,12 @@ export function useCoinMetrics() {
     }
   };
 
-  //Sets he validAssets array to the original value
+  //Sets the validAssets array to the original value when first fetched
   const resetAssets = () => {
     setValidAssets(assetReset);
   };
 
-  //Sets he activeMetrics array to the original value
+  //Sets the activeMetrics array to the original value when first fetched
   const resetMetrics = () => {
     setActiveMetrics(metricReset);
   };

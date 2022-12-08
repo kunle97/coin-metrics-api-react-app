@@ -4,7 +4,6 @@ import AssetColumn from "./AssetColumn";
 import MetricColumn from "./MetricColumn";
 
 const ColumnRow = () => {
-  const [selectedItem, setSelectedItem] = useState();
 
   const {
     validAssets,
@@ -35,8 +34,6 @@ const ColumnRow = () => {
   return (
     <div className="row">
       <AssetColumn
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
         activeMetrics={activeMetrics}
         setActiveMetrics={setActiveMetrics}
         validAssets={validAssets}
