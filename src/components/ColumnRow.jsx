@@ -1,4 +1,4 @@
-import React, { useRef }  from "react";
+import React, { useRef } from "react";
 import { useCoinMetrics } from "../hooks/useCoinMetrics";
 import AssetColumn from "./AssetColumn";
 import MetricColumn from "./MetricColumn";
@@ -56,7 +56,6 @@ const ColumnRow = () => {
         alertMessage={alertMessage}
         metricSearchRef={metricSearchRef}
       />
-
       <button
         className="btn btn-primary reset-button"
         onClick={handleResetLists}

@@ -101,4 +101,5 @@ const AssetColumn = (props) => {
     </div>
   );
 };
+
 export default AssetColumn;

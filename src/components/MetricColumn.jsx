@@ -60,7 +60,6 @@ const MetricColumn = (props) => {
           </div>
         </div>
       </div>
-
       <ul className="metric-list data-list">
         {props.activeMetrics.map((metric) => {
           const assets = metric.frequencies[0].assets;
@@ -80,4 +79,5 @@ const MetricColumn = (props) => {
     </div>
   );
 };
+
 export default MetricColumn;
