@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef }  from "react";
 import { useCoinMetrics } from "../hooks/useCoinMetrics";
 import AssetColumn from "./AssetColumn";
 import MetricColumn from "./MetricColumn";
@@ -17,12 +17,17 @@ const ColumnRow = () => {
     setActiveMetrics,
   } = useCoinMetrics(); //custom hook that Handles calls to the coin metrics api
 
+  const assetSearchRef = useRef();
+  const metricSearchRef = useRef();
+
   //Function called when the 'reset lists' button is clicked
   const handleResetLists = () => {
     getAssets();
     getMetrics();
     resetAssets();
     resetMetrics();
+    assetSearchRef.current.value = "";
+    metricSearchRef.current.value = "";
   };
 
   return (
@@ -38,6 +43,7 @@ const ColumnRow = () => {
         resetMetrics={resetMetrics}
         resetAssets={resetAssets}
         alertMessage={alertMessage}
+        assetSearchRef={assetSearchRef}
       />
       <MetricColumn
         activeMetrics={activeMetrics}
@@ -48,6 +54,7 @@ const ColumnRow = () => {
         getMetrics={getMetrics}
         resetAssets={resetAssets}
         alertMessage={alertMessage}
+        metricSearchRef={metricSearchRef}
       />
 
       <button

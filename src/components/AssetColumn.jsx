@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 
 const AssetColumn = (props) => {
-  const assetSearchRef = useRef();
+  const assetSearchRef = props.assetSearchRef;
+
   //Function used to handle searching assets when search button is clicked
   const searchAsset = (e) => {
     //update assets when search button is pressed

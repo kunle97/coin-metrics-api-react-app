@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 const MetricColumn = (props) => {
-  const metricSearchRef = useRef();
+  const metricSearchRef = props.metricSearchRef;
 
   //Function used to handle searching metrics when search button is clicked
   const searchMetric = (e) => {
