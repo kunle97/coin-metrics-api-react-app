@@ -4,7 +4,6 @@ import AssetColumn from "./AssetColumn";
 import MetricColumn from "./MetricColumn";
 
 const ColumnRow = () => {
-
   const {
     validAssets,
     activeMetrics,
