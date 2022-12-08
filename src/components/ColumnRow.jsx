@@ -1,9 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useCoinMetrics } from "../hooks/useCoinMetrics";
 import AssetColumn from "./AssetColumn";
 import MetricColumn from "./MetricColumn";
 
 const ColumnRow = () => {
+  const [selectedItem, setSelectedItem] = useState();
+
   const {
     validAssets,
     activeMetrics,
@@ -33,6 +35,8 @@ const ColumnRow = () => {
   return (
     <div className="row">
       <AssetColumn
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
         activeMetrics={activeMetrics}
         setActiveMetrics={setActiveMetrics}
         validAssets={validAssets}

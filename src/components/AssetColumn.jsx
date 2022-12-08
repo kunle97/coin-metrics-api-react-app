@@ -25,8 +25,16 @@ const AssetColumn = (props) => {
   };
 
   //handles filtering in metric column when an asset is clicked
-  const assetOnClick = (e, metrics) => {
+  const assetOnClick =  (e, metrics) => { 
     if (e.currentTarget.className === "asset-list-item") {
+      //select all elements with the asset-list-item class
+      const elements = document.querySelectorAll('.asset-list-item');
+
+      //Remove selected class from all items
+      elements.forEach((element) => {
+        element.classList.remove('list-item-selected');
+      });
+ 
       e.currentTarget.className = "asset-list-item list-item-selected";
       const filteredMetrics = [];
       for (var i = 0; i < props.activeMetrics.length; i++) {
@@ -78,7 +86,7 @@ const AssetColumn = (props) => {
               onClick={(e) => assetOnClick(e, metrics)}
             >
               <h4 className="asset-title">
-                {asset.full_name} ({asset.asset})
+                {asset.full_name} ({asset.asset.toUpperCase()})
               </h4>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -24,6 +24,14 @@ const MetricColumn = (props) => {
   //handles filtering in asset column when metric is clicked
   const metricOnClick = (e, assets) => {
     if (e.currentTarget.className === "metric-list-item") {
+      //select all elements with the asset-list-item class
+      const elements = document.querySelectorAll('.metric-list-item');
+
+      //Remove selected class from all items
+      elements.forEach((element) => {
+        element.classList.remove('list-item-selected');
+      });
+
       e.currentTarget.className = "metric-list-item list-item-selected";
       props.setValidAssets(
         props.validAssets.filter((item) => assets.includes(item.asset))
@@ -41,12 +49,12 @@ const MetricColumn = (props) => {
       <div>
         <div className="input-group mb-3">
           <input
-            id="assetSearchBar"
+            id="metricSearchBar"
             type="text"
             ref={metricSearchRef}
             className="form-control search-bar"
-            placeholder="Search for an Assets"
-            aria-label="Search for an Assets"
+            placeholder="Search for an Metrics"
+            aria-label="Search for an Metrics"
             aria-describedby="basic-addon2"
           />
           <div className="input-group-append">
