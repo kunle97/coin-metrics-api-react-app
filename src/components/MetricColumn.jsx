@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 const MetricColumn = (props) => {
   const metricSearchRef = props.metricSearchRef;

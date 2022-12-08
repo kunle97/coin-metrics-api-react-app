@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 const AssetColumn = (props) => {
   const assetSearchRef = props.assetSearchRef;
