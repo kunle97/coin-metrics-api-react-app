@@ -51,6 +51,7 @@ const AssetColumn = (props) => {
       //Update the metrics list
       props.setActiveMetrics(filteredMetrics);
     } else {
+      //Resets the metrics column list when an asset is deselected
       e.currentTarget.className = "asset-list-item";
       props.getMetrics();
       props.resetMetrics();

@@ -17,6 +17,7 @@ const ColumnRow = () => {
     setActiveMetrics,
   } = useCoinMetrics(); //custom hook that Handles calls to the coin metrics api
 
+  //Refs that are linked to the search bars at the top of each column the value
   const assetSearchRef = useRef();
   const metricSearchRef = useRef();
 

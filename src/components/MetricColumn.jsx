@@ -38,6 +38,7 @@ const MetricColumn = (props) => {
         props.validAssets.filter((item) => assets.includes(item.asset))
       );
     } else {
+      //Resets the assets column list when a metric is deselected
       e.currentTarget.className = "metric-list-item";
       props.getAssets();
       props.resetAssets();
