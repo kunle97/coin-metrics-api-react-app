@@ -13,7 +13,7 @@ const AssetColumn = (props) => {
         props.validAssets.filter(
           (asset) =>
             asset.full_name.toLowerCase().startsWith(query.toLowerCase()) ||
-            asset.asset.toLowerCase().startsWith(query.toLowerCase())
+            asset.asset.toLowerCase() === (query.toLowerCase())
         )
       );
       if (props.validAssets.length === 0) {

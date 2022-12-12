@@ -13,7 +13,7 @@ const MetricColumn = (props) => {
         props.activeMetrics.filter(
           (metric) =>
             metric.full_name.toLowerCase().startsWith(query.toLowerCase()) ||
-            metric.metric.toLowerCase().startsWith(query.toLowerCase())
+            metric.metric.toLowerCase() === (query.toLowerCase())
         )
       );
     } else {
